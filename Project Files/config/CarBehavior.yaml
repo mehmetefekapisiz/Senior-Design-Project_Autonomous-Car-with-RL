@@ -1,0 +1,25 @@
+behaviors:
+  CarBehavior:
+    trainer_type: ppo
+    max_steps: 1000000
+    time_horizon: 64 #Ajanin ne kadar gelecege baktigi
+    summary_freq: 5000 #TensorBoarda kaç adimda veri gonderecegi
+
+    hyperparameters:
+      batch_size: 512 #buffer_sizeı ekran kartindan geciren kucuk parcalar
+      buffer_size: 8192 #Yapay zekanin hafizasinda biriktirdigi xp kapasitesi
+      learning_rate: 3.0e-4 #Ogrenme hizi. Yuksekse her hatada sert tepki verir. Dusukse ogrenmesi uzun surer.
+      beta: 5.0e-3 #Entropi, yani rastgeleliktir. Ajanın yeni şeyler denemesini sağlar.
+      epsilon: 0.2 #Clipping. Yeni politika, eskisine gore maskimum yuzde yirmi farkli.
+      lambd: 0.95 #Suanki odul, sonraki odulden daha onemli.
+      num_epoch: 5 #Her bir bufferin ustunden ne kadar gecilecegidir.
+
+    network_settings:
+      normalize: true
+      hidden_units: 256
+      num_layers: 3
+
+    reward_signals:
+      extrinsic:
+        gamma: 0.99 #Ajanin gelecekteki odulleri ne kadar onemsedigidir.
+        strength: 1.0 #Odulun ne kadar ciddiye alinacagıdır. 1.0, tamami demektir.
